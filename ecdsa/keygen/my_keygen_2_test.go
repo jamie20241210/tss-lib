@@ -8,8 +8,9 @@ package keygen
 
 import (
 	"crypto/ecdsa" // 标准库：ECDSA 数字签名算法
-	"math/big"     // 标准库：大整数运算
-	"testing"      // 标准库：单元测试框架
+	"encoding/json"
+	"math/big" // 标准库：大整数运算
+	"testing"  // 标准库：单元测试框架
 
 	"github.com/bnb-chain/tss-lib/v2/common"     // TSS 库：通用工具
 	"github.com/bnb-chain/tss-lib/v2/crypto"     // TSS 库：密码学原语
@@ -47,6 +48,14 @@ func TestKeygenAndAddressGeneration_2(t *testing.T) {
 		// testParticipants 是全局变量，通常为 3
 		pIDs = tss.GenerateTestPartyIDs(testParticipants)
 	}
+
+	// 打印 pIDs
+	pIDsJSON, _ := json.MarshalIndent(pIDs, "", "  ")
+	common.Logger.Infof("PartyIDs:\n%s", string(pIDsJSON))
+
+	// 打印 fixtures
+	fixturesJSON, _ := json.MarshalIndent(fixtures, "", "  ")
+	common.Logger.Infof("Fixtures:\n%s", string(fixturesJSON))
 
 	// 第 37 行：创建点对点通信上下文，包含所有参与方的身份信息
 	// 这个上下文用于参与方之间进行消息路由
